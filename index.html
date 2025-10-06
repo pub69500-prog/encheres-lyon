@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ventes aux Enchères Lyon - Tous mois</title>
+    <title>Ventes aux Enchères Lyon - Toutes Maisons & Dates</title>
     <style>
         body { font-family: 'Courier New', monospace; background: #191a19; color: #00ff41; margin:0; padding:0;}
         .container { max-width: 1040px; margin:40px auto; background:rgba(0,0,0,0.92); border:2px solid #00ff41; border-radius:12px; padding:28px;}
@@ -30,9 +30,9 @@
 <body>
     <div class="container">
         <h1>🔨 VENTES AUX ENCHÈRES LYON 🔨</h1>
-        <div class="subtitle">Toutes les maisons, toutes les dates à venir (scroll illimité)</div>
+        <div class="subtitle">Toutes les maisons, toutes les dates à venir (scroll et recherche instantanés)</div>
         <div class="filter-section">
-            <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, etc.">
+            <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, lieu...">
         </div>
         <div id="content"></div>
         <div class="last-update" id="lastUpdate"></div>
@@ -44,7 +44,6 @@
                 return date.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
             } catch { return dateIso; }
         }
-        let loaded = false;
         let auctionsAll = [];
         function displayAuctions(auctions) {
             const content = document.getElementById('content');
@@ -108,7 +107,7 @@
             }
         }
         window.addEventListener('DOMContentLoaded', loadAuctions);
-        // Scrolling naturel sur toute la page (aucune limite en JS)
+        // Scrolling naturel sur toute la page (aucune limite JS, recherche immédiate)
     </script>
 </body>
 </html>
