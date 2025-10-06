@@ -1,220 +1,380 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-import requests
-from bs4 import BeautifulSoup
-import json
-from datetime import datetime
-import logging
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
-logger = logging.getLogger(__name__)
-
-class AuctionScraper:
-    def __init__(self):
-        self.headers = {'User-Agent': 'Mozilla/5.0'}
-        self.auctions = []
-
-    def format_date(self, date_str):
-        """Tente de convertir une date en français type '6 octobre 2025' en ISO"""
-        mois = {
-            'janvier': 1, 'février': 2, 'mars': 3, 'avril': 4,
-            'mai': 5, 'juin': 6, 'juillet': 7, 'août': 8,
-            'septembre': 9, 'octobre': 10, 'novembre': 11, 'décembre': 12
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ventes aux Enchères Lyon - Auto Update</title>
+    <style>
+        /* Style Matrix-themed */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        try:
-            parts = date_str.lower().replace('le', '').strip().split()
-            day = int(parts[0])
-            month = mois.get(parts[1], 1)
-            year = int(parts[2])
-            return f"{year}-{month:02d}-{day:02d}"
-        except Exception:
-            return datetime.now().strftime("%Y-%m-%d")
 
-    def add_auction(self, date, title, house, time, location, url):
-        self.auctions.append({
-            "date": date,
-            "title": title.strip(),
-            "house": house.strip(),
-            "time": time.strip() if time else "",
-            "location": location.strip() if location else "",
-            "url": url if url else ""
-        })
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(to bottom, #0d0d0d 0%, #1a1a1a 100%);
+            color: #00ff41;
+            padding: 20px;
+            min-height: 100vh;
+        }
 
-    # --- FONCTIONS DE SCRAPING MAISON PAR MAISON ---
-    def scrape_debaecque(self):
-        logger.info("Scraping De Baecque")
-        # Adaptation nécessaire : utiliser le vrai sélecteur CSS du calendrier
-        # Exemple générique (doit être ajusté selon le site) :
-        url = "https://www.debaecque.fr/ventes-a-venir"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            for item in soup.select(".vente-item"):
-                date_txt = item.select_one(".date").get_text()
-                title = item.select_one("h3").get_text()
-                heure = item.select_one(".heure")
-                lieu = item.select_one(".lieu")
-                link = item.select_one("a")["href"]
-                self.add_auction(self.format_date(date_txt), title, "De Baecque & Associés", heure.get_text() if heure else "", lieu.get_text() if lieu else "Lyon", link)
-        except Exception as e:
-            logger.error(f"De Baecque: {str(e)}")
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
 
-    def scrape_conan(self):
-        logger.info("Scraping Conan Hôtel d’Ainay")
-        url = "https://www.conanauction.fr/calendrier"
-        # À adapter aussi selon la structure (exemple placeholder)
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Conan Hôtel d’Ainay: {str(e)}")
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #00ff41;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
 
-    def scrape_artencheres(self):
-        logger.info("Scraping ArtEnchères")
-        url = "https://www.artencheres.fr/ventes-a-venir"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"ArtEnchères: {str(e)}")
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;
+            }
 
-    def scrape_aguttes(self):
-        logger.info("Scraping Aguttes Lyon")
-        url = "https://www.aguttes.com/lyon"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Aguttes: {str(e)}")
-    
-    def scrape_credit_municipal(self):
-        logger.info("Scraping Crédit Municipal de Lyon")
-        url = "https://www.credit-municipal-lyon.fr/calendrier-enchere-lyon.php"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Crédit Municipal: {str(e)}")
+            to {
+                text-shadow: 0 0 20px #00ff41, 0 0 30px #00ff41, 0 0 40px #00ff41;
+            }
+        }
 
-    def scrape_ivoiere_berard(self):
-        logger.info("Scraping Ivoire Lyon Bérard-Péron-Schintgen")
-        url = "https://www.lyon-encheres.fr/fr/acheter/ventes_venir/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Ivoire Lyon: {str(e)}")
-    
-    def scrape_millon(self):
-        logger.info("Scraping Millon Hôtel des ventes Lyon")
-        url = "https://www.millon.com/lyon"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Millon: {str(e)}")
+        .subtitle {
+            text-align: center;
+            color: #00cc33;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
 
-    def scrape_adn(self):
-        logger.info("Scraping ADN Enchères Lyon")
-        url = "https://www.adn-encheres.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"ADN Enchères: {str(e)}")
-    
-    def scrape_era(self):
-        logger.info("Scraping ERA Rhône-Alpes")
-        url = "https://www.eraencheres.com/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"ERA: {str(e)}")
+        .loading {
+            text-align: center;
+            font-size: 1.5em;
+            padding: 40px;
+            color: #00cc33;
+        }
 
-    def scrape_richardmdv(self):
-        logger.info("Scraping Richard MDV")
-        url = "https://www.richardmdv.com"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Richard MDV: {str(e)}")
+        .error {
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff4444;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
 
-    def scrape_alcopa(self):
-        logger.info("Scraping Alcopa Auction")
-        url = "https://www.alcopa-auction.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Alcopa Auction: {str(e)}")
+        .auction-card {
+            background: rgba(0, 20, 0, 0.6);
+            border: 1px solid #00cc33;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
 
-    def scrape_vpauto(self):
-        logger.info("Scraping VP Auto")
-        url = "https://www.vpauto.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"VP Auto: {str(e)}")
+        .auction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 255, 65, 0.4);
+            border-color: #00ff41;
+        }
 
-    # Tu peux dupliquer ce modèle pour Bremens & Belleville, ANAFA & Associé, Artcurial Lyon, François David / Tajan...
+        .auction-date {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #00ff41;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #00cc33;
+        }
 
-    def scrape_all(self):
-        self.scrape_debaecque()
-        self.scrape_conan()
-        self.scrape_artencheres()
-        self.scrape_aguttes()
-        self.scrape_credit_municipal()
-        self.scrape_ivoiere_berard()
-        self.scrape_millon()
-        self.scrape_adn()
-        self.scrape_era()
-        self.scrape_richardmdv()
-        self.scrape_alcopa()
-        self.scrape_vpauto()
-        # ... ajoute les autres selon besoin
+        .auction-item {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 3px solid #00cc33;
+            border-radius: 4px;
+        }
 
-    def organize_by_date(self):
-        auctions_by_date = {}
-        for auction in self.auctions:
-            date = auction['date']
-            if date not in auctions_by_date:
-                auctions_by_date[date] = {
-                    'date': date,
-                    'displayDate': auction['date'],  # pour simplifier
-                    'auctions': []
+        .auction-title {
+            font-size: 1.2em;
+            color: #00ff41;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .auction-house {
+            color: #00cc33;
+            font-size: 1em;
+            margin-bottom: 5px;
+        }
+
+        .auction-time {
+            color: #009922;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+        }
+
+        .auction-location {
+            color: #007711;
+            font-size: 0.9em;
+            font-style: italic;
+        }
+
+        .auction-link {
+            display: inline-block;
+            margin-top: 8px;
+            color: #00ff41;
+            text-decoration: none;
+            border: 1px solid #00cc33;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            transition: all 0.3s ease;
+        }
+
+        .auction-link:hover {
+            background: #00cc33;
+            color: #000;
+        }
+
+        .last-update {
+            text-align: center;
+            color: #009922;
+            margin-top: 30px;
+            font-size: 0.9em;
+            padding-top: 20px;
+            border-top: 1px solid #00cc33;
+        }
+
+        .filter-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(0, 30, 0, 0.5);
+            border: 1px solid #00cc33;
+            border-radius: 8px;
+        }
+
+        .filter-section input {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid #00cc33;
+            color: #00ff41;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+            font-size: 1em;
+        }
+
+        .filter-section input:focus {
+            outline: none;
+            border-color: #00ff41;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+        }
+
+        .no-results {
+            text-align: center;
+            color: #009922;
+            padding: 40px;
+            font-size: 1.2em;
+        }
+
+        .week-info {
+            text-align: center;
+            color: #00cc33;
+            font-size: 1em;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: rgba(0, 40, 0, 0.3);
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔨 VENTES AUX ENCHÈRES LYON 🔨</h1>
+        <div class="subtitle">Mise à jour automatique quotidienne</div>
+
+        <div class="filter-section">
+            <input type="text" id="searchInput" placeholder="Rechercher par maison, type de vente, date..." />
+        </div>
+
+        <div class="week-info" id="weekInfo"></div>
+
+        <div id="content">
+            <div class="loading">⏳ Chargement des ventes aux enchères...</div>
+        </div>
+
+        <div class="last-update" id="lastUpdate"></div>
+    </div>
+
+    <script>
+        function getCurrentWeekDates() {
+            const today = new Date();
+            const dayOfWeek = today.getDay();
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1));
+
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+
+            return { monday, sunday };
+        }
+
+        function filterCurrentWeekAuctions(auctions) {
+            const { monday, sunday } = getCurrentWeekDates();
+
+            return auctions.filter((auction) => {
+                const auctionDate = new Date(auction.date);
+                return auctionDate >= monday && auctionDate <= sunday;
+            });
+        }
+
+        function displayWeekInfo() {
+            const { monday, sunday } = getCurrentWeekDates();
+            const weekInfo = document.getElementById('weekInfo');
+            weekInfo.textContent = `Semaine du ${monday.toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+            })} au ${sunday.toLocaleDateString('fr-FR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+            })}`;
+        }
+
+        function displayAuctions(auctions) {
+            const content = document.getElementById('content');
+
+            if (auctions.length === 0) {
+                content.innerHTML =
+                    '<div class="no-results">Aucune vente aux enchères prévue cette semaine à Lyon</div>';
+                return;
+            }
+
+            let html = '';
+            auctions.forEach((day) => {
+                const searchableText = `${day.displayDate} ${day.auctions
+                    .map((a) => a.title + ' ' + a.house)
+                    .join(' ')}`.toLowerCase();
+
+                html += `<div class="auction-card" data-searchable="${searchableText}">
+                            <div class="auction-date">📅 ${day.displayDate}</div>`;
+
+                day.auctions.forEach((auction) => {
+                    html += `<div class="auction-item">
+                            <div class="auction-title">${auction.title}</div>
+                            <div class="auction-house">🏛️ ${auction.house}</div>
+                            <div class="auction-time">⏰ ${auction.time}</div>
+                            <div class="auction-location">📍 ${auction.location}</div>
+                            ${
+                                auction.url
+                                    ? `<a href="${auction.url}" target="_blank" class="auction-link">🔗 Plus d'infos</a>`
+                                    : ''
+                            }
+                        </div>`;
+                });
+
+                html += '</div>';
+            });
+
+            content.innerHTML = html;
+        }
+
+        function setupSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.auction-card');
+
+                cards.forEach((card) => {
+                    const searchableText = card.getAttribute('data-searchable');
+                    if (searchableText.includes(searchTerm)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        function updateLastUpdateTime(lastScraped) {
+            const lastUpdate = document.getElementById('lastUpdate');
+            if (lastScraped) {
+                const date = new Date(lastScraped);
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                };
+                lastUpdate.textContent = `Dernière mise à jour : ${date.toLocaleDateString(
+                    'fr-FR',
+                    options
+                )}`;
+            } else {
+                const now = new Date();
+                const options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                };
+                lastUpdate.textContent = `Page consultée le : ${now.toLocaleDateString(
+                    'fr-FR',
+                    options
+                )}`;
+            }
+        }
+
+        async function loadAuctions() {
+            try {
+                const response = await fetch('./data/auctions.json');
+
+                if (!response.ok) {
+                    throw new Error('Impossible de charger les données');
                 }
-            auctions_by_date[date]['auctions'].append({k: auction[k] for k in auction if k != 'date'})
-        return [auctions_by_date[d] for d in sorted(auctions_by_date.keys())]
 
-    def save_to_json(self, file_path='data/auctions.json'):
-        organized = self.organize_by_date()
-        data = {
-            "last_update": datetime.now().isoformat(),
-            "auctions": organized
+                const data = await response.json();
+
+                const currentWeekAuctions = filterCurrentWeekAuctions(data.auctions);
+
+                displayWeekInfo();
+
+                displayAuctions(currentWeekAuctions);
+
+                updateLastUpdateTime(data.last_update);
+
+                setupSearch();
+            } catch (error) {
+                const content = document.getElementById('content');
+                content.innerHTML = `<div class="error">⚠️ Erreur lors du chargement des ventes aux enchères. Les données n'ont pas pu être récupérées.</div>`;
+                console.error('Erreur:', error);
+            }
         }
-        with open(file_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        logger.info(f"Données sauvegardées dans {file_path}")
 
-def main():
-    scraper = AuctionScraper()
-    scraper.scrape_all()
-    scraper.save_to_json()
-
-if __name__ == "__main__":
-    main()
+        window.addEventListener('DOMContentLoaded', loadAuctions);
+    </script>
+</body>
+</html>
