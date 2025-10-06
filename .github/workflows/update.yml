@@ -1,0 +1,36 @@
+name: Update Auctions Data
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  # Tous les jours à 6h00 UTC (8h00 CEST)
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r scripts/requirements.txt
+
+      - name: Run scraper
+        run: |
+          cd scripts
+          python scrape.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/auctions.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update auctions data - $(date +'%Y-%m-%d %H:%M:%S')" && git push)
