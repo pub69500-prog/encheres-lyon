@@ -10,8 +10,7 @@ class LyonAuctionsScraper:
         self.auctions = []
 
     def format_date(self, fr_date):
-        mois = {'janvier':'01','février':'02','mars':'03','avril':'04','mai':'05','juin':'06','juillet':'07','août':'08','septembre':'09',
-                'octobre':'10','novembre':'11','décembre':'12'}
+        mois = {'janvier':'01','février':'02','mars':'03','avril':'04','mai':'05','juin':'06','juillet':'07','août':'08','septembre':'09','octobre':'10','novembre':'11','décembre':'12'}
         match = re.search(r'(\d{1,2}) (\w+) (\d{4})', fr_date)
         if match:
             jour = match.group(1)
@@ -25,26 +24,23 @@ class LyonAuctionsScraper:
             "date": date,
             "title": title,
             "house": house,
-            "time": time if time else "",
-            "location": location if location else "",
-            "url": url if url else ""
+            "time": time or "",
+            "location": location or "",
+            "url": url or ""
         })
 
     def scrape_debaecque(self):
         url = "https://www.debaecque.fr/ventes-a-venir"
         r = requests.get(url, headers=self.headers)
         soup = BeautifulSoup(r.text, "html.parser")
-        # Parcourt tous les blocs ventes (tous mois)
         ventes = soup.find_all('div', class_='calendrier entry clearfix')
         for vente in ventes:
-            # Titre
             titre = ""
             h2 = vente.find('div', class_='entry-title')
             if h2 and h2.find('a'):
                 titre = h2.find('a').text.strip()
             elif h2:
                 titre = h2.text.strip()
-            # Date et heure
             blocdate = vente.find('div', class_='blocventedate')
             date_heure = blocdate.text.strip() if blocdate else ""
             m = re.search(r'(\w+ \d{2} \w+ \d{4})[^\d]*(\d{1,2}h\d{2,2}|\d{1,2}h)?', date_heure)
@@ -52,10 +48,8 @@ class LyonAuctionsScraper:
             if m:
                 date = self.format_date(m.group(1))
                 heure = (m.group(2) or "").replace("h", "h00").strip() if m.group(2) else ""
-            # Lieu
             bloclieu = vente.find('div', class_='blocventelieui')
             lieu = bloclieu.text.strip() if bloclieu else ""
-            # Lien catalogue/infos principal (le premier lien dans entry-title)
             lien = url
             if h2 and h2.find('a') and h2.find('a').get('href'):
                 lien = "https://www.debaecque.fr/" + h2.find('a').get('href').lstrip('/')
