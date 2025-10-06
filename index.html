@@ -83,6 +83,12 @@ h1 {
 .auction-link:hover{color:#fff;background:#1de007;}
 .last-update{text-align:center;color:#008d35;margin-top:22px;font-size:1em; opacity:.84; letter-spacing:.5px;}
 .no-results{text-align:center;color:#219d58;padding:18px;font-size:1.13em;}
+.error {text-align:center;color:#ff0000;padding:18px;font-size:1.13em;}
+.loading {text-align:center;color:#00ff41;padding:18px;font-size:1.13em; animation: spin 1s linear infinite;}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 @media (max-width: 700px) {.container {padding:6px;} h1 {font-size:1.3em;} }
 </style>
 </head>
@@ -90,8 +96,9 @@ h1 {
 <div class="container">
     <h1>🔩 VENTES AUX ENCHÈRES RHÔNE/LYON 🔩</h1>
     <div class="subtitle">Maison De Baecque, Conan, Interencheres – Recherche & Scroll illimités</div>
-    <button class="refresh-btn" id="refreshButton">⟳ Actualiser la liste</button>
+    <button class="refresh-btn" id="refreshButton" aria-label="Actualiser la liste des ventes">⟳ Actualiser la liste</button>
     <div class="filter-section">
+        <label for="searchInput" class="sr-only">Recherche par date, maison, type, lieu...</label>
         <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, lieu...">
     </div>
     <div id="content"></div>
@@ -103,6 +110,7 @@ function formatFrDate(dateIso) {
     catch { return dateIso; }
 }
 let auctionsAll = [];
+let debounceTimer;
 function displayAuctions(auctions) {
     const content = document.getElementById('content');
     if (!auctions || auctions.length === 0) {
@@ -118,7 +126,7 @@ function displayAuctions(auctions) {
                 <div class="auction-house">🏛️ ${auction.house}</div>
                 <div class="auction-time">⏰ ${auction.time}</div>
                 <div class="auction-location">📍 ${auction.location}</div>
-                ${auction.url ? `<a href="${auction.url}" class="auction-link" target="_blank">🔗 Catalogue</a>` : ''}
+                ${auction.url ? `<a href="${auction.url}" class="auction-link" target="_blank" rel="noopener noreferrer">🔗 Catalogue</a>` : ''}
             </div>`;
         });
         html += '</div>';
@@ -128,21 +136,24 @@ function displayAuctions(auctions) {
 function setupSearch(auctions) {
     const searchInput = document.getElementById('searchInput');
     searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.trim().toLowerCase();
-        let filtered = [];
-        if (searchTerm === "") filtered = auctions;
-        else {
-            filtered = auctions.map(day => ({
-                ...day,
-                auctions: day.auctions.filter(auc => (
-                    day.displayDate.toLowerCase().includes(searchTerm) ||
-                    auc.title.toLowerCase().includes(searchTerm) ||
-                    auc.house.toLowerCase().includes(searchTerm) ||
-                    (auc.location && auc.location.toLowerCase().includes(searchTerm))
-                ))
-            })).filter(day => day.auctions.length > 0);
-        }
-        displayAuctions(filtered);
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+            const searchTerm = this.value.trim().toLowerCase();
+            let filtered = [];
+            if (searchTerm === "") filtered = auctions;
+            else {
+                filtered = auctions.map(day => ({
+                    ...day,
+                    auctions: day.auctions.filter(auc => (
+                        day.displayDate.toLowerCase().includes(searchTerm) ||
+                        auc.title.toLowerCase().includes(searchTerm) ||
+                        auc.house.toLowerCase().includes(searchTerm) ||
+                        (auc.location && auc.location.toLowerCase().includes(searchTerm))
+                    ))
+                })).filter(day => day.auctions.length > 0);
+            }
+            displayAuctions(filtered);
+        }, 300); // Debounce de 300ms
     });
 }
 function updateLastUpdateTime(lastScraped) {
@@ -153,22 +164,22 @@ function updateLastUpdateTime(lastScraped) {
     }
 }
 async function loadAuctions() {
+    const content = document.getElementById('content');
+    content.innerHTML = '<div class="loading">Chargement... 🔄</div>';
     try {
         const response = await fetch('./data/auctions.json?' + Date.now());
+        if (!response.ok) throw new Error('Erreur réseau');
         const data = await response.json();
         auctionsAll = data.auctions;
         displayAuctions(auctionsAll);
         setupSearch(auctionsAll);
         updateLastUpdateTime(data.last_update);
     } catch (e) {
-        document.getElementById('content').innerHTML = '<div class="error">Erreur lors du chargement des ventes</div>';
+        content.innerHTML = '<div class="error">Erreur lors du chargement des ventes : ' + e.message + '</div>';
     }
 }
-document.getElementById('refreshButton').addEventListener('click', function() {
-    loadAuctions();
-});
+document.getElementById('refreshButton').addEventListener('click', loadAuctions);
 window.addEventListener('DOMContentLoaded', loadAuctions);
-// scrolling infini natif tant que le fichier JSON grossit
 </script>
 </body>
 </html>
