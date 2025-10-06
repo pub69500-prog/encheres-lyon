@@ -30,7 +30,7 @@
 <body>
     <div class="container">
         <h1>🔨 VENTES AUX ENCHÈRES LYON 🔨</h1>
-        <div class="subtitle">Toutes les dates à venir - auto mise à jour</div>
+        <div class="subtitle">Toutes les maisons, toutes les dates à venir (auto-mise à jour)</div>
         <div class="filter-section">
             <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, etc.">
         </div>
@@ -39,13 +39,11 @@
     </div>
     <script>
         function formatFrDate(dateIso) {
-            // dateIso = "2025-11-23"
             try {
                 const date = new Date(dateIso);
                 return date.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
             } catch { return dateIso; }
         }
-
         function displayAuctions(auctions) {
             const content = document.getElementById('content');
             if (auctions.length === 0) {
@@ -68,7 +66,6 @@
             });
             content.innerHTML = html;
         }
-
         function setupSearch(auctions) {
             const searchInput = document.getElementById('searchInput');
             searchInput.addEventListener('input', function() {
@@ -89,7 +86,6 @@
                 displayAuctions(filtered);
             });
         }
-
         function updateLastUpdateTime(lastScraped) {
             const lastUpdate = document.getElementById('lastUpdate');
             if (lastScraped) {
@@ -97,7 +93,6 @@
                 lastUpdate.textContent = `Dernière actualisation : ${date.toLocaleDateString('fr-FR', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}`;
             }
         }
-
         async function loadAuctions() {
             try {
                 const response = await fetch('./data/auctions.json');
@@ -109,7 +104,6 @@
                 document.getElementById('content').innerHTML = '<div class="error">Erreur lors du chargement des ventes</div>';
             }
         }
-
         window.addEventListener('DOMContentLoaded', loadAuctions);
     </script>
 </body>
