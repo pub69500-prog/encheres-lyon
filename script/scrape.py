@@ -1,169 +1,70 @@
+import re
 import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
-import logging
-
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 class LyonAuctionsScraper:
     def __init__(self):
         self.headers = {'User-Agent': 'Mozilla/5.0'}
         self.auctions = []
 
-    # Adapter chaque fonction avec analyse de page au cas par cas
-    def scrape_debaecque(self):
-        logger.info("De Baecque")
-        url = "https://www.debaecque.fr/ventes-a-venir"
-        try:
-            # Exemple de structure à adapter avec l'analyse HTML réelle !
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            for item in soup.select('.vente-item'):
-                date = self.format_date(item.select_one('.date').get_text())
-                title = item.select_one('h3').get_text()
-                time = item.select_one('.heure').get_text() if item.select_one('.heure') else ""
-                location = item.select_one('.lieu').get_text() if item.select_one('.lieu') else "Lyon"
-                link = item.select_one('a')['href']
-                self.add_auction(date, title, "De Baecque & Associés", time, location, link)
-        except Exception as e:
-            logger.error(f"De Baecque: {str(e)}")
-
-    def scrape_aguttes(self):
-        logger.info("Aguttes")
-        url = "https://www.aguttes.com/lyon"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Aguttes: {str(e)}")
-
-    def scrape_conan(self):
-        logger.info("Conan Hôtel d’Ainay")
-        url = "https://www.conanauction.fr/calendrier"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Conan: {str(e)}")
-
-    def scrape_artencheres(self):
-        logger.info("ArtEnchères")
-        url = "https://www.artencheres.fr/ventes-a-venir"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"ArtEnchères: {str(e)}")
-
-    def scrape_credit_municipal(self):
-        logger.info("Crédit Municipal de Lyon")
-        url = "https://www.credit-municipal-lyon.fr/calendrier-enchere-lyon.php"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Crédit Municipal: {str(e)}")
-
-    def scrape_ivoiere_berard(self):
-        logger.info("Ivoire Lyon / Bérard-Péron-Schintgen")
-        url = "https://www.lyon-encheres.fr/fr/acheter/ventes_venir/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Ivoire: {str(e)}")
-
-    def scrape_millon(self):
-        logger.info("Millon Lyon")
-        url = "https://www.millon.com/lyon"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Millon: {str(e)}")
-
-    def scrape_adn(self):
-        logger.info("ADN Enchères Lyon")
-        url = "https://www.adn-encheres.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"ADN Enchères: {str(e)}")
-
-    def scrape_era(self):
-        logger.info("ERA Enchères Rhône-Alpes")
-        url = "https://www.eraencheres.com/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"ERA: {str(e)}")
-
-    def scrape_richardmdv(self):
-        logger.info("Richard MDV")
-        url = "https://www.richardmdv.com"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Richard MDV: {str(e)}")
-
-    def scrape_alcopa(self):
-        logger.info("Alcopa Auction")
-        url = "https://www.alcopa-auction.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"Alcopa: {str(e)}")
-
-    def scrape_vpauto(self):
-        logger.info("VP Auto")
-        url = "https://www.vpauto.fr/"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # À remplir !
-        except Exception as e:
-            logger.error(f"VP Auto: {str(e)}")
-
-    # --- GESTION GLOBALE ---
-    def format_date(self, date_str):
-        mois = {
-          'janvier': 1, 'février': 2, 'mars': 3, 'avril': 4, 'mai': 5, 'juin': 6,
-          'juillet': 7, 'août': 8, 'septembre': 9, 'octobre': 10, 'novembre': 11, 'décembre': 12
-        }
-        try:
-            parts = date_str.lower().split()
-            day = int(parts[0])
-            month = mois.get(parts[1],1)
-            year = int(parts[2])
-            return f"{year}-{month:02d}-{day:02d}"
-        except:
-            return datetime.now().strftime("%Y-%m-%d")
+    def format_date(self, fr_date):
+        mois = {'janvier':'01','février':'02','mars':'03','avril':'04','mai':'05','juin':'06','juillet':'07','août':'08','septembre':'09','octobre':'10','novembre':'11','décembre':'12'}
+        match = re.search(r'(\d{1,2}) (\w+) (\d{4})', fr_date)
+        if match:
+            jour = match.group(1)
+            m = mois.get(match.group(2), '01')
+            an = match.group(3)
+            return f"{an}-{m}-{jour.zfill(2)}"
+        return datetime.now().strftime("%Y-%m-%d")
 
     def add_auction(self, date, title, house, time, location, url):
         self.auctions.append({
             "date": date,
             "title": title,
             "house": house,
-            "time": time,
-            "location": location,
-            "url": url
+            "time": time if time else "",
+            "location": location if location else "",
+            "url": url if url else ""
         })
+
+    def scrape_ivoiere_berard(self):
+        url = "https://www.lyon-encheres.fr/fr/acheter/ventes_venir/"
+        r = requests.get(url, headers=self.headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+        blocks = soup.text.split('### ')
+        for block in blocks[1:]:
+            titre, reste = block.split('\n', 1)
+            date_match = re.search(r'(Mercredi|Samedi|Jeudi|Mardi|Lundi|Vendredi|Dimanche) (\d{2,4}) (\w+) (\d{4}) à ([0-9h]+)', block)
+            date_text, time = "", ""
+            if date_match:
+                dt = f"{date_match.group(2)} {date_match.group(3)} {date_match.group(4)}"
+                time = date_match.group(5)
+                date_text = self.format_date(dt)
+            name = titre.strip()
+            self.add_auction(date_text or "", name, "Ivoire Lyon / Bérard-Péron-Schintgen", time, "Corbas ou Lyon", url)
+
+    def scrape_debaecque(self):
+        # La page n’affiche que des cookies (vrai calendrier non accessible sans JS+cookies), il faudra le compléter manuellement ou via scraping dynamique plus avancé
+        pass
+
+    def scrape_conan(self):
+        # La page n’affiche que le consentement cookies pour le calendrier public, pas d’infos sans JS/cookies
+        pass
+
+    def scrape_artencheres(self):
+        # Le site requiert le consentement, pas de calendrier accessible directement en HTML statique
+        pass
+
+    def scrape_aguttes(self):
+        # Page de Lyon décrite mais pas de calendrier HTML accessible sans JS
+        pass
+
+    def scrape_credit_municipal(self):
+        url = "https://www.credit-municipal-lyon.fr/calendrier-enchere-lyon.php"
+        # Pas de calendrier structuré dans HTML brut, à voir si page catalogue ou format PDF accessible
+        pass
 
     def organize_by_date(self):
         auctions_by_date = {}
@@ -186,22 +87,10 @@ class LyonAuctionsScraper:
         }
         with open(file_path, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=2)
-        logger.info(f"Données sauvegardées dans {file_path}")
 
     def scrape_all(self):
-        # Appelles à tout compléter...
-        self.scrape_debaecque()
-        self.scrape_aguttes()
-        self.scrape_conan()
-        self.scrape_artencheres()
-        self.scrape_credit_municipal()
         self.scrape_ivoiere_berard()
-        self.scrape_millon()
-        self.scrape_adn()
-        self.scrape_era()
-        self.scrape_richardmdv()
-        self.scrape_alcopa()
-        self.scrape_vpauto()
+        # Ajoute ici les autres maisons une fois accès direct HTML ou PDF
 
 def main():
     scraper = LyonAuctionsScraper()
