@@ -1,29 +1,25 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
 import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-class AuctionScraper:
+class LyonAuctionsScraper:
     def __init__(self):
         self.headers = {'User-Agent': 'Mozilla/5.0'}
         self.auctions = []
 
     def format_date(self, date_str):
-        """Tente de convertir une date en français type '6 octobre 2025' en ISO"""
         mois = {
             'janvier': 1, 'février': 2, 'mars': 3, 'avril': 4,
             'mai': 5, 'juin': 6, 'juillet': 7, 'août': 8,
             'septembre': 9, 'octobre': 10, 'novembre': 11, 'décembre': 12
         }
         try:
-            parts = date_str.lower().replace('le', '').strip().split()
+            parts = date_str.lower().split()
             day = int(parts[0])
             month = mois.get(parts[1], 1)
             year = int(parts[2])
@@ -34,52 +30,23 @@ class AuctionScraper:
     def add_auction(self, date, title, house, time, location, url):
         self.auctions.append({
             "date": date,
-            "title": title.strip(),
-            "house": house.strip(),
-            "time": time.strip() if time else "",
-            "location": location.strip() if location else "",
+            "title": title,
+            "house": house,
+            "time": time if time else "",
+            "location": location if location else "",
             "url": url if url else ""
         })
 
-    # --- FONCTIONS DE SCRAPING MAISON PAR MAISON ---
+    # Exemple générique : adapte chaque fonction selon la structure du site !
     def scrape_debaecque(self):
         logger.info("Scraping De Baecque")
-        # Adaptation nécessaire : utiliser le vrai sélecteur CSS du calendrier
-        # Exemple générique (doit être ajusté selon le site) :
         url = "https://www.debaecque.fr/ventes-a-venir"
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            for item in soup.select(".vente-item"):
-                date_txt = item.select_one(".date").get_text()
-                title = item.select_one("h3").get_text()
-                heure = item.select_one(".heure")
-                lieu = item.select_one(".lieu")
-                link = item.select_one("a")["href"]
-                self.add_auction(self.format_date(date_txt), title, "De Baecque & Associés", heure.get_text() if heure else "", lieu.get_text() if lieu else "Lyon", link)
+            # À compléter avec la vraie structure
         except Exception as e:
             logger.error(f"De Baecque: {str(e)}")
-
-    def scrape_conan(self):
-        logger.info("Scraping Conan Hôtel d’Ainay")
-        url = "https://www.conanauction.fr/calendrier"
-        # À adapter aussi selon la structure (exemple placeholder)
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"Conan Hôtel d’Ainay: {str(e)}")
-
-    def scrape_artencheres(self):
-        logger.info("Scraping ArtEnchères")
-        url = "https://www.artencheres.fr/ventes-a-venir"
-        try:
-            resp = requests.get(url, headers=self.headers)
-            soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
-        except Exception as e:
-            logger.error(f"ArtEnchères: {str(e)}")
 
     def scrape_aguttes(self):
         logger.info("Scraping Aguttes Lyon")
@@ -87,17 +54,37 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"Aguttes: {str(e)}")
-    
+
+    def scrape_conan(self):
+        logger.info("Scraping Conan Hôtel d’Ainay")
+        url = "https://www.conanauction.fr/calendrier"
+        try:
+            resp = requests.get(url, headers=self.headers)
+            soup = BeautifulSoup(resp.content, "html.parser")
+            # À compléter
+        except Exception as e:
+            logger.error(f"Conan: {str(e)}")
+
+    def scrape_artencheres(self):
+        logger.info("Scraping ArtEnchères")
+        url = "https://www.artencheres.fr/ventes-a-venir"
+        try:
+            resp = requests.get(url, headers=self.headers)
+            soup = BeautifulSoup(resp.content, "html.parser")
+            # À compléter
+        except Exception as e:
+            logger.error(f"ArtEnchères: {str(e)}")
+
     def scrape_credit_municipal(self):
         logger.info("Scraping Crédit Municipal de Lyon")
         url = "https://www.credit-municipal-lyon.fr/calendrier-enchere-lyon.php"
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"Crédit Municipal: {str(e)}")
 
@@ -107,17 +94,17 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"Ivoire Lyon: {str(e)}")
-    
+
     def scrape_millon(self):
         logger.info("Scraping Millon Hôtel des ventes Lyon")
         url = "https://www.millon.com/lyon"
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"Millon: {str(e)}")
 
@@ -127,17 +114,17 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"ADN Enchères: {str(e)}")
-    
+
     def scrape_era(self):
         logger.info("Scraping ERA Rhône-Alpes")
         url = "https://www.eraencheres.com/"
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"ERA: {str(e)}")
 
@@ -147,7 +134,7 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"Richard MDV: {str(e)}")
 
@@ -157,9 +144,9 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
-            logger.error(f"Alcopa Auction: {str(e)}")
+            logger.error(f"Alcopa: {str(e)}")
 
     def scrape_vpauto(self):
         logger.info("Scraping VP Auto")
@@ -167,11 +154,9 @@ class AuctionScraper:
         try:
             resp = requests.get(url, headers=self.headers)
             soup = BeautifulSoup(resp.content, "html.parser")
-            # A compléter
+            # À compléter
         except Exception as e:
             logger.error(f"VP Auto: {str(e)}")
-
-    # Tu peux dupliquer ce modèle pour Bremens & Belleville, ANAFA & Associé, Artcurial Lyon, François David / Tajan...
 
     def scrape_all(self):
         self.scrape_debaecque()
@@ -186,22 +171,22 @@ class AuctionScraper:
         self.scrape_richardmdv()
         self.scrape_alcopa()
         self.scrape_vpauto()
-        # ... ajoute les autres selon besoin
+        # Ajoute les autres selon besoin
 
     def organize_by_date(self):
         auctions_by_date = {}
         for auction in self.auctions:
-            date = auction['date']
+            date = auction["date"]
             if date not in auctions_by_date:
                 auctions_by_date[date] = {
-                    'date': date,
-                    'displayDate': auction['date'],  # pour simplifier
-                    'auctions': []
+                    "date": date,
+                    "displayDate": date,
+                    "auctions": []
                 }
-            auctions_by_date[date]['auctions'].append({k: auction[k] for k in auction if k != 'date'})
+            auctions_by_date[date]["auctions"].append({k: auction[k] for k in auction if k != "date"})
         return [auctions_by_date[d] for d in sorted(auctions_by_date.keys())]
 
-    def save_to_json(self, file_path='data/auctions.json'):
+    def save_to_json(self, file_path="data/auctions.json"):
         organized = self.organize_by_date()
         data = {
             "last_update": datetime.now().isoformat(),
@@ -212,7 +197,7 @@ class AuctionScraper:
         logger.info(f"Données sauvegardées dans {file_path}")
 
 def main():
-    scraper = AuctionScraper()
+    scraper = LyonAuctionsScraper()
     scraper.scrape_all()
     scraper.save_to_json()
 
