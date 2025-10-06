@@ -1,20 +1,20 @@
 {
-  "last_update": "2025-10-06T11:48:00+02:00",
+  "last_update": "2025-10-06T09:57:40.191618",
   "auctions": [
     {
       "date": "2025-10-06",
       "displayDate": "2025-10-06",
       "auctions": [
         {
-          "title": "Une vie, des collections II - Art populaire",
           "house": "De Baecque & Associés",
+          "title": "Une vie, des collections II - Art populaire",
           "time": "14h00",
           "location": "Lyon, 70, rue Vendôme 69006 Lyon",
           "url": "https://www.debaecque.fr/catalogue/166899-une-vie-des-collections-ii-art-populaire"
         },
         {
-          "title": "Vente aux enchères caritative - La passerelle",
           "house": "De Baecque & Associés",
+          "title": "Vente aux enchères caritative - La passerelle",
           "time": "19h00",
           "location": "Hôtel Mercure, Lyon Perrache 69002 Lyon",
           "url": "https://www.debaecque.fr/catalogue/170582-vente-aux-encheres-caritative-la-passerelle"
@@ -26,8 +26,8 @@
       "displayDate": "2025-10-07",
       "auctions": [
         {
-          "title": "Une vie, des collections III - Bijoux régionaux et orientaux",
           "house": "De Baecque & Associés",
+          "title": "Une vie, des collections III - Bijoux régionaux et orientaux",
           "time": "14h30",
           "location": "Lyon, 70, rue Vendôme 69006 Lyon",
           "url": "https://www.debaecque.fr/catalogue/166904-une-vie-des-collections-iii-bijoux-regionaux-et-orientaux"
@@ -35,15 +35,368 @@
       ]
     },
     {
-      "date": "2025-10-09",
-      "displayDate": "2025-10-09",
+      "date": "2025-10-11",
+      "displayDate": "2025-10-11",
       "auctions": [
         {
-          "title": "Vente d'atelier Pierre Dedieu (1928-2013) - Partie II",
+          "house": "Conan Hôtel d’Ainay",
+          "title": "XX - XXI : Art Nouveau - Art Déco - Design",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/catalogue/168207-xx-xxi-art-nouveau-art-deco-design"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-14",
+      "displayDate": "2025-10-14",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "XX - XXI : Art Moderne et Contemporain",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/catalogue/168205-xx-xxi-art-moderne-et-contemporain"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-15",
+      "displayDate": "2025-10-15",
+      "auctions": [
+        {
           "house": "De Baecque & Associés",
+          "title": "Vente d'atelier Hamiot Partie II - Chrono Online",
+          "time": "20h00",
+          "location": "140, rue de la Poudrette 69100 Villeurbanne",
+          "url": "https://www.debaecque.fr/vente/171030-vente-datelier-hamiot-partie-ii-chrono-online"
+        },
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Bijoux et Montres - Mode et Vintage",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/catalogue/168093-bijoux-et-montres-mode-et-vintage"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-16",
+      "displayDate": "2025-10-16",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "XXe - XXIe siècles - Art Moderne et Contemporain - Design",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/166916-xxe-xxie-siecles-art-moderne-et-contemporain-design"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-21",
+      "displayDate": "2025-10-21",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Arts d'Asie",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168060-arts-dasie"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-22",
+      "displayDate": "2025-10-22",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Militaria & Souvenirs historiques",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/160789-militaria-and-souvenirs-historiques"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-23",
+      "displayDate": "2025-10-23",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Jouets - Chrono Online",
+          "time": "20h00",
+          "location": "140, rue de la Poudrette 69100 Villeurbanne",
+          "url": "https://www.debaecque.fr/vente/170259-jouets-chrono-online"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-27",
+      "displayDate": "2025-10-27",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Grands Vins et Spiritueux",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168063-grands-vins-et-spiritueux"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-29",
+      "displayDate": "2025-10-29",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Collection d'un amateur du Premier Empire & à divers",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/166922-collection-dun-amateur-du-premier-empire-and-a-divers"
+        }
+      ]
+    },
+    {
+      "date": "2025-10-31",
+      "displayDate": "2025-10-31",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Minéraux",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/168599-mineraux"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-05",
+      "displayDate": "2025-11-05",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Poupées et Jouets",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167440-poupees-et-jouets"
+        },
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Livres anciens et modernes",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168062-livres-anciens-et-modernes"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-13",
+      "displayDate": "2025-11-13",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Collection d'une ancienne antiquaire - Art populaire, curiosités et objets d'art",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167450-collection-dune-ancienne-antiquaire-art-populaire-curiosites"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-17",
+      "displayDate": "2025-11-17",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Vente caritative - Projet Vénus #16",
+          "time": "18h00",
+          "location": "Hôtel de Ville du 1er arrondissement de Lyon, 2, place Sathonay 69001 Lyon",
+          "url": "https://www.debaecque.fr/vente/169725-vente-caritative-projet-venus-16"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-19",
+      "displayDate": "2025-11-19",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Bijoux et Montres - Mode et Vintage",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168092-bijoux-et-montres-mode-et-vintage"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-22",
+      "displayDate": "2025-11-22",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Mobilier et Objets d'art",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167457-mobilier-et-objets-dart"
+        },
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Mobilier et Objets d'Art - Céramique - Argenterie",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168069-mobilier-et-objets-dart-ceramique-argenterie"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-24",
+      "displayDate": "2025-11-24",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Tableaux anciens et modernes",
           "time": "14h00",
-          "location": "Versailles, 3, impasse des Chevau-Légers 78000 Versailles",
-          "url": "https://www.debaecque.fr/catalogue/166933-vente-datelier-pierre-dedieu-1928-2013-partie-ii"
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167460-tableaux-anciens-et-modernes"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-25",
+      "displayDate": "2025-11-25",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Bijoux anciens et modernes - Montres",
+          "time": "14h00",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167462-bijoux-anciens-et-modernes-montres"
+        },
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Tableaux Anciens et Modernes - Gravures",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168071-tableaux-anciens-et-modernes-gravures"
+        }
+      ]
+    },
+    {
+      "date": "2025-11-28",
+      "displayDate": "2025-11-28",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Arts d'Asie",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167441-arts-dasie"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-04",
+      "displayDate": "2025-12-04",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Livres anciens et modernes",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167453-livres-anciens-et-modernes"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-11",
+      "displayDate": "2025-12-11",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Art Populaire et Montagne #12",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167430-art-populaire-et-montagne-12"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-13",
+      "displayDate": "2025-12-13",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Mobilier et Objets d'Art - Argenterie - Céramique - Tapis",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168212-mobilier-et-objets-dart-argenterie-ceramique-tapis"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-16",
+      "displayDate": "2025-12-16",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Tableaux Anciens et Modernes - Gravures",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168213-tableaux-anciens-et-modernes-gravures"
+        }
+      ]
+    },
+    {
+      "date": "2025-12-17",
+      "displayDate": "2025-12-17",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Bijoux et Montres - Mode et Vintage",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168193-bijoux-et-montres-mode-et-vintage"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-14",
+      "displayDate": "2026-01-14",
+      "auctions": [
+        {
+          "house": "Conan Hôtel d’Ainay",
+          "title": "Manuscrits et Autographes",
+          "time": "14h30",
+          "location": "Lyon, 8-10, rue de Castries 69002 Lyon",
+          "url": "https://www.conanauction.fr/vente/168110-manuscrits-et-autographes"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-22",
+      "displayDate": "2026-01-22",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Collection d'amateurs lyonnais d'art contemporain - Vente d'atelier",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167443-collection-damateurs-lyonnais-dart-contemporain-vente"
+        }
+      ]
+    },
+    {
+      "date": "2026-01-29",
+      "displayDate": "2026-01-29",
+      "auctions": [
+        {
+          "house": "De Baecque & Associés",
+          "title": "Instruments de musique",
+          "time": "14h30",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/vente/167444-instruments-de-musique"
         }
       ]
     }
