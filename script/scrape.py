@@ -72,6 +72,35 @@ class LyonAuctionsScraper:
             lien = titre_el.find('a')['href'] if titre_el and titre_el.find('a') else url
             self.add_auction(date_iso, titre, "Conan Hôtel d’Ainay", heure, lieu, lien)
 
+    def scrape_interencheres(self):
+        api_url = "https://api.interencheres.com/v1/public/vente/search"
+        params = {
+            "area": "69",
+            "limit": 100,
+            "offset": 0
+        }
+        ventes_total = []
+        while True:
+            r = requests.get(api_url, params=params, headers=self.headers)
+            if r.status_code != 200:
+                break
+            data = r.json()
+            ventes = data.get("ventes", [])
+            if not ventes:
+                break
+            ventes_total.extend(ventes)
+            if len(ventes) < params["limit"]:
+                break
+            params["offset"] += params["limit"]
+        for vente in ventes_total:
+            date = vente.get("dateDebut", "").split("T")[0]
+            titre = vente.get("titre") or ""
+            heure = vente.get("dateDebut", "")[11:16]
+            maison = vente.get("etude", {}).get("raisonSociale", "Interencheres")
+            lieu = vente.get("lieu", {}).get("libelle", "")
+            url = "https://www.interencheres.com/{}".format(vente.get("url", ""))
+            self.add_auction(date, titre, maison, heure, lieu, url)
+
     def organize_by_date(self):
         auctions_by_date = {}
         for a in self.auctions:
@@ -97,6 +126,7 @@ class LyonAuctionsScraper:
     def scrape_all(self):
         self.scrape_debaecque()
         self.scrape_conan()
+        self.scrape_interencheres()
 
 def main():
     scraper = LyonAuctionsScraper()
