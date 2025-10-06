@@ -1,5 +1,5 @@
 {
-  "last_update": "2025-10-06T11:39:00+02:00",
+  "last_update": "2025-10-06T11:45:00+02:00",
   "auctions": [
     {
       "date": "2025-10-06",
@@ -9,14 +9,14 @@
           "title": "Une vie, des collections II - Art populaire",
           "house": "De Baecque & Associés",
           "time": "14h00",
-          "location": "Lyon , 70, rue Vendôme 69006 Lyon",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
           "url": "https://www.debaecque.fr/catalogue/166899-une-vie-des-collections-ii-art-populaire"
         },
         {
           "title": "Vente aux enchères caritative - La passerelle",
           "house": "De Baecque & Associés",
           "time": "19h00",
-          "location": "Hôtel Mercure , Lyon Perrache 69002 Lyon",
+          "location": "Hôtel Mercure, Lyon Perrache 69002 Lyon",
           "url": "https://www.debaecque.fr/catalogue/170582-vente-aux-encheres-caritative-la-passerelle"
         }
       ]
@@ -29,7 +29,7 @@
           "title": "Une vie, des collections III - Bijoux régionaux et orientaux",
           "house": "De Baecque & Associés",
           "time": "14h30",
-          "location": "Lyon , 70, rue Vendôme 69006 Lyon",
+          "location": "Lyon, 70, rue Vendôme 69006 Lyon",
           "url": "https://www.debaecque.fr/catalogue/166904-une-vie-des-collections-iii-bijoux-regionaux-et-orientaux"
         }
       ]
@@ -42,11 +42,10 @@
           "title": "Vente d'atelier Pierre Dedieu (1928-2013) - Partie II",
           "house": "De Baecque & Associés",
           "time": "14h00",
-          "location": "Versailles , 3, impasse des Chevau-Légers 78000 Versailles",
+          "location": "Versailles, 3, impasse des Chevau-Légers 78000 Versailles",
           "url": "https://www.debaecque.fr/catalogue/166933-vente-datelier-pierre-dedieu-1928-2013-partie-ii"
         }
       ]
     }
-    // ... Ajouter la structure pour chaque jour/vente supplémentaire
   ]
 }
