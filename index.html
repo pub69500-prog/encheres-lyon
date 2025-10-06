@@ -1,118 +1,174 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ventes aux Enchères Lyon - Toutes Maisons & Dates</title>
-    <style>
-        body { font-family: 'Courier New', monospace; background: #191a19; color: #00ff41; margin:0; padding:0;}
-        .container { max-width: 1040px; margin:40px auto; background:rgba(0,0,0,0.92); border:2px solid #00ff41; border-radius:12px; padding:28px;}
-        h1 { text-align:center; font-size:2.7em; margin-bottom:10px; text-shadow:0 0 10px #00ff41; animation:glow 2s ease-in-out infinite alternate;}
-        @keyframes glow { from { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;} to {text-shadow:0 0 24px #00ff41,0 0 40px #00ff41,0 0 58px #00ff41;} }
-        .subtitle {text-align:center; color:#00cc33; margin-bottom:22px;}
-        .refresh-btn {display:inline-block; background:#00ff41; color:#191a19; border:none; border-radius:6px; font-size:1em; font-weight:bold; padding:8px 18px; margin:5px 0 16px 0; cursor:pointer; box-shadow: 0 0 8px #00ff41; transition:background 0.2s;}
-        .refresh-btn:hover { background:#00cc33; color:#fff;}
-        .filter-section {margin-bottom:22px; padding:12px 0;}
-        .filter-section input {background:rgba(0,0,0,0.6); border:1px solid #00cc33; color:#00ff41; padding:10px; border-radius:5px; font-family:'Courier New',monospace; width:95%; font-size:1em;}
-        .filter-section input:focus {outline:none; border-color:#00ff41;}
-        .auction-card {background: rgba(0,20,0,0.55); border:1px solid #00cc33; border-radius:8px; padding:13px; margin-bottom:13px; transition:all 0.3s; box-shadow:0 3px 12px rgba(0,255,65,0.06);}
-        .auction-card:hover {transform:translateY(-2px); box-shadow:0 5px 20px rgba(0,255,65,0.13); border-color:#00ff41;}
-        .auction-date {font-size:1.25em;font-weight:bold;color:#00ff41;margin-bottom:7px; padding-bottom:4px; border-bottom:1px solid #00cc33;}
-        .auction-item {background: rgba(0,0,0,0.30); padding:8px; margin:7px 0; border-left:3px solid #00cc33; border-radius:2px;}
-        .auction-title{font-size:1.09em;color:#00ff41;margin-bottom:2px;font-weight:bold;}
-        .auction-house{color:#00cc33;font-size:0.97em;}
-        .auction-time{color:#009922;font-size:0.97em;}
-        .auction-location{color:#007711;font-size:0.97em; font-style:italic;}
-        .auction-link{display:inline-block; margin-top:2px; color:#00ff41; text-decoration:none;}
-        .last-update{text-align:center;color:#009922;margin-top:26px;font-size:0.95em;}
-        .no-results{text-align:center;color:#009922;padding:22px;font-size:1.08em;}
-        @media (max-width: 700px) {.container {padding:9px;} h1 {font-size:1.5em;} }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ventes aux Enchères Lyon</title>
+<style>
+body {
+  font-family: 'Courier New', Courier, monospace;
+  background: #111316;
+  color: #00ff41;
+  margin: 0; padding: 0;
+  transition: background 0.5s;
+}
+.container {
+  max-width: 1040px;
+  margin: 40px auto;
+  background: rgba(0,0,0,0.94);
+  border: 2px solid #00ff41;
+  border-radius: 14px;
+  box-shadow: 0 0 35px #008d35a6;
+  padding: 32px 14px;
+}
+h1 {
+  text-align:center;
+  font-size:2.4em;
+  letter-spacing:3px;
+  margin-bottom:10px;
+  text-shadow: 0 0 12px #00ff41, 0 0 8px #007c2b;
+  animation:glow 4s ease-in-out infinite alternate;
+}
+@keyframes glow {
+  from { text-shadow: 0 0 10px #00ff41, 0 0 20px #00ff41;}
+  to { text-shadow:0 0 24px #00ff41,0 0 40px #84d39b, 0 0 10px #00ff41;}
+}
+.subtitle {
+  text-align:center; color:#1de007; margin-bottom:22px; font-size:1.1em;
+}
+.refresh-btn {
+  display:inline-block; background:#00ff41; color:#111316; border:none; border-radius:6px; font-size:1em; font-weight:bold; padding:8px 18px; margin:5px 0 16px 0; cursor:pointer; box-shadow: 0 0 12px #00ff41; transition:background 0.2s;
+}
+.refresh-btn:hover { background:#007c2b; color:#fff; }
+.filter-section {margin-bottom:22px; padding:12px 0;}
+.filter-section input {
+  background:rgba(0,0,0,0.7);
+  border:1px solid #00cc33;
+  color:#00ff41;
+  padding:10px;
+  border-radius:5px;
+  font-family:'Courier New',monospace;
+  width:97%;
+  font-size:1.09em;
+  box-shadow:0 0 7px #007c2b36;
+}
+.filter-section input:focus {outline:none; border-color:#00ff41;}
+.auction-card {
+  background: rgba(0,20,0,0.51);
+  border:1px solid #109c45;
+  border-radius:9px;
+  padding:15px;
+  margin-bottom:14px;
+  transition:all 0.3s;
+  box-shadow:0 3px 18px rgba(0,255,65,0.13);
+}
+.auction-card:hover {transform:translateY(-2px); box-shadow:0 5px 26px rgba(11,255,65,0.13); border-color:#00ff41;}
+.auction-date {
+  font-size:1.26em;font-weight:bold;color:#00ff41;
+  margin-bottom:8px; padding-bottom:6px;
+  border-bottom:1px solid #007c2b;
+  letter-spacing:1px;
+}
+.auction-item {
+  background:rgba(0,0,0,0.24); padding:8px;
+  margin:7px 0; border-left:3px solid #13ff47;
+  border-radius:2px;
+  box-shadow:0 0 4px #08ec33;
+}
+.auction-title{font-size:1.13em;color:#baffb2;margin-bottom:2px;font-weight:bold;letter-spacing:.5px;}
+.auction-house{color:#00cc33;font-size:1em;}
+.auction-time{color:#70d97e;font-size:0.98em;}
+.auction-location{color:#37ce63;font-size:0.99em; font-style:italic;}
+.auction-link{display:inline-block; margin-top:2px; margin-right:10px; color:#1bf07d; text-decoration:none;}
+.auction-link:hover{color:#fff;background:#1de007;}
+.last-update{text-align:center;color:#008d35;margin-top:22px;font-size:1em; opacity:.84; letter-spacing:.5px;}
+.no-results{text-align:center;color:#219d58;padding:18px;font-size:1.13em;}
+@media (max-width: 700px) {.container {padding:6px;} h1 {font-size:1.3em;} }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔨 VENTES AUX ENCHÈRES LYON 🔨</h1>
-        <div class="subtitle">Toutes les maisons, toutes les dates à venir (scroll et recherche instantanés)</div>
-        <button class="refresh-btn" id="refreshButton">⟳ Actualiser la liste</button>
-        <div class="filter-section">
-            <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, lieu...">
-        </div>
-        <div id="content"></div>
-        <div class="last-update" id="lastUpdate"></div>
+<div class="container">
+    <h1>🔩 VENTES AUX ENCHÈRES RHÔNE/LYON 🔩</h1>
+    <div class="subtitle">Maison De Baecque, Conan, Interencheres – Recherche & Scroll illimités</div>
+    <button class="refresh-btn" id="refreshButton">⟳ Actualiser la liste</button>
+    <div class="filter-section">
+        <input type="text" id="searchInput" placeholder="Recherche par date, maison, type, lieu...">
     </div>
-    <script>
-        function formatFrDate(dateIso) {
-            try {
-                const date = new Date(dateIso);
-                return date.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
-            } catch { return dateIso; }
-        }
-        let auctionsAll = [];
-        function displayAuctions(auctions) {
-            const content = document.getElementById('content');
-            if (auctions.length === 0) {
-                content.innerHTML = '<div class="no-results">Aucune vente aux enchères trouvée</div>';return;
-            }
-            let html = '';
-            auctions.forEach(day => {
-                html += `<div class="auction-card" data-searchable="${day.displayDate.toLowerCase()} ${day.auctions.map(a => a.title + ' ' + a.house).join(' ').toLowerCase()}">
-                            <div class="auction-date">📅 ${formatFrDate(day.date)}</div>`;
-                day.auctions.forEach(auction => {
-                    html += `<div class="auction-item">
-                                <div class="auction-title">${auction.title}</div>
-                                <div class="auction-house">🏛️ ${auction.house}</div>
-                                <div class="auction-time">⏰ ${auction.time}</div>
-                                <div class="auction-location">📍 ${auction.location}</div>
-                                ${auction.url ? `<a href="${auction.url}" class="auction-link" target="_blank">🔗 Info</a>` : ''}
-                             </div>`;
-                });
-                html += '</div>';
-            });
-            content.innerHTML = html;
-        }
-        function setupSearch(auctions) {
-            const searchInput = document.getElementById('searchInput');
-            searchInput.addEventListener('input', function() {
-                const searchTerm = this.value.toLowerCase();
-                let filtered = [];
-                if (searchTerm === "") filtered = auctions;
-                else {
-                    filtered = auctions.map(day => ({
-                        ...day,
-                        auctions: day.auctions.filter(auc => (
-                            day.displayDate.toLowerCase().includes(searchTerm) ||
-                            auc.title.toLowerCase().includes(searchTerm) ||
-                            auc.house.toLowerCase().includes(searchTerm) ||
-                            (auc.location && auc.location.toLowerCase().includes(searchTerm))
-                        ))
-                    })).filter(day => day.auctions.length > 0);
-                }
-                displayAuctions(filtered);
-            });
-        }
-        function updateLastUpdateTime(lastScraped) {
-            const lastUpdate = document.getElementById('lastUpdate');
-            if (lastScraped) {
-                const date = new Date(lastScraped);
-                lastUpdate.textContent = `Dernière actualisation : ${date.toLocaleDateString('fr-FR', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}`;
-            }
-        }
-        async function loadAuctions() {
-            try {
-                const response = await fetch('./data/auctions.json?' + Date.now());
-                const data = await response.json();
-                auctionsAll = data.auctions;
-                displayAuctions(auctionsAll);
-                setupSearch(auctionsAll);
-                updateLastUpdateTime(data.last_update);
-            } catch (e) {
-                document.getElementById('content').innerHTML = '<div class="error">Erreur lors du chargement des ventes</div>';
-            }
-        }
-        document.getElementById('refreshButton').addEventListener('click', function() {
-            loadAuctions();
+    <div id="content"></div>
+    <div class="last-update" id="lastUpdate"></div>
+</div>
+<script>
+function formatFrDate(dateIso) {
+    try { return new Date(dateIso).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}); }
+    catch { return dateIso; }
+}
+let auctionsAll = [];
+function displayAuctions(auctions) {
+    const content = document.getElementById('content');
+    if (!auctions || auctions.length === 0) {
+        content.innerHTML = '<div class="no-results">Aucune vente aux enchères trouvée</div>';return;
+    }
+    let html = '';
+    auctions.forEach(day => {
+        html += `<div class="auction-card" data-searchable="${day.displayDate.toLowerCase()} ${day.auctions.map(a => a.title + ' ' + a.house).join(' ').toLowerCase()}">
+            <div class="auction-date">📅 ${formatFrDate(day.date)}</div>`;
+        day.auctions.forEach(auction => {
+            html += `<div class="auction-item">
+                <div class="auction-title">${auction.title}</div>
+                <div class="auction-house">🏛️ ${auction.house}</div>
+                <div class="auction-time">⏰ ${auction.time}</div>
+                <div class="auction-location">📍 ${auction.location}</div>
+                ${auction.url ? `<a href="${auction.url}" class="auction-link" target="_blank">🔗 Catalogue</a>` : ''}
+            </div>`;
         });
-        window.addEventListener('DOMContentLoaded', loadAuctions);
-    </script>
+        html += '</div>';
+    });
+    content.innerHTML = html;
+}
+function setupSearch(auctions) {
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.trim().toLowerCase();
+        let filtered = [];
+        if (searchTerm === "") filtered = auctions;
+        else {
+            filtered = auctions.map(day => ({
+                ...day,
+                auctions: day.auctions.filter(auc => (
+                    day.displayDate.toLowerCase().includes(searchTerm) ||
+                    auc.title.toLowerCase().includes(searchTerm) ||
+                    auc.house.toLowerCase().includes(searchTerm) ||
+                    (auc.location && auc.location.toLowerCase().includes(searchTerm))
+                ))
+            })).filter(day => day.auctions.length > 0);
+        }
+        displayAuctions(filtered);
+    });
+}
+function updateLastUpdateTime(lastScraped) {
+    const lastUpdate = document.getElementById('lastUpdate');
+    if (lastScraped) {
+        const date = new Date(lastScraped);
+        lastUpdate.textContent = `Dernière actualisation : ${date.toLocaleDateString('fr-FR', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'})}`;
+    }
+}
+async function loadAuctions() {
+    try {
+        const response = await fetch('./data/auctions.json?' + Date.now());
+        const data = await response.json();
+        auctionsAll = data.auctions;
+        displayAuctions(auctionsAll);
+        setupSearch(auctionsAll);
+        updateLastUpdateTime(data.last_update);
+    } catch (e) {
+        document.getElementById('content').innerHTML = '<div class="error">Erreur lors du chargement des ventes</div>';
+    }
+}
+document.getElementById('refreshButton').addEventListener('click', function() {
+    loadAuctions();
+});
+window.addEventListener('DOMContentLoaded', loadAuctions);
+// scrolling infini natif tant que le fichier JSON grossit
+</script>
 </body>
 </html>
