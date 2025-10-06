@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 import json
 from datetime import datetime
-import tabula  # Pour PDF
 
 class LyonAuctionsScraper:
     def __init__(self):
@@ -30,39 +29,48 @@ class LyonAuctionsScraper:
             "url": url if url else ""
         })
 
-    # EXEMPLE HTML : Ivoire Lyon / Bérard-Péron-Schintgen
-    def scrape_ivoiere_berard(self):
-        url = "https://www.lyon-encheres.fr/fr/acheter/ventes_venir/"
+    def scrape_debaecque(self):
+        url = "https://www.debaecque.fr/ventes-a-venir"
         r = requests.get(url, headers=self.headers)
         soup = BeautifulSoup(r.text, "html.parser")
-        # À compléter SELON HTML réel, méthode brute pour illustrer :
-        ventes = soup.find_all('div', class_='vente-block')  # adapte ce sélecteur
+        ventes = soup.find_all('div', class_='calendrier entry clearfix')
         for vente in ventes:
-            titre = vente.find('h2').get_text()
-            date_raw = vente.find('span', class_='vente-date').get_text()
-            heure = vente.find('span', class_='vente-heure').get_text() if vente.find('span', class_='vente-heure') else ""
-            lieu = vente.find('span', class_='vente-lieu').get_text() if vente.find('span', class_='vente-lieu') else ""
-            lien = vente.find('a')['href'] if vente.find('a') else url
-            date_iso = self.format_date(date_raw)
-            self.add_auction(date_iso, titre, "Ivoire Lyon / Bérard-Péron-Schintgen", heure, lieu, lien)
+            h2 = vente.find('div', class_='entry-title')
+            titre = h2.text.strip() if h2 else ""
+            blocdate = vente.find('div', class_='blocventedate')
+            date_heure = blocdate.text.strip() if blocdate else ""
+            m = re.search(r'(\w+ \d{2} \w+ \d{4})[^\d]*(\d{1,2}h\d{2}|\d{1,2}h)?', date_heure)
+            date, heure = "", ""
+            if m:
+                date = self.format_date(m.group(1))
+                heure = (m.group(2) or "").replace("h", "h00").strip() if m.group(2) else ""
+            lieu = ""
+            bloclieu = vente.find('div', class_='blocventelieui')
+            if bloclieu:
+                lieu = bloclieu.text.strip()
+            a = vente.find('div', class_='entry-title').find('a') if vente.find('div', class_='entry-title') else None
+            lien = url
+            if a and a.get('href'):
+                lien = "https://www.debaecque.fr/" + a.get('href').lstrip('/')
+            self.add_auction(date, titre, "De Baecque & Associés", heure, lieu, lien)
 
-    # EXEMPLE PDF : Maison fictive pour illustration (adapte l’URL et le nom !)
-    def scrape_maison_pdf(self):
-        pdf_url = "https://site-maison.fr/calendrier-maison.pdf"
-        pdf_file = "data/maison_temp.pdf"
-        r = requests.get(pdf_url, headers=self.headers)
-        with open(pdf_file, "wb") as f:
-            f.write(r.content)
-        tables = tabula.read_pdf(pdf_file, pages="all", multiple_tables=True, lattice=True)
-        for table in tables:
-            for row in table.values:
-                if len(row) < 2:
-                    continue
-                date_raw, titre = row[0], row[1]
-                heure = row[2] if len(row) > 2 else ""
-                lieu = row[3] if len(row) > 3 else ""
-                date_iso = self.format_date(str(date_raw))
-                self.add_auction(date_iso, str(titre), "Maison PDF", str(heure), str(lieu), pdf_url)
+    def scrape_conan(self):
+        url = "https://www.conanauction.fr/calendrier"
+        r = requests.get(url, headers=self.headers)
+        soup = BeautifulSoup(r.text, "html.parser")
+        ventes = soup.find_all('div', class_='entry')
+        for vente in ventes:
+            titre_el = vente.find('div', class_='entry-title')
+            titre = titre_el.text.strip() if titre_el else ""
+            date_el = vente.find('div', class_='entry-date')
+            date_str = date_el.text.strip() if date_el else ""
+            date_iso = self.format_date(date_str)
+            heure_el = vente.find('div', class_='entry-time')
+            heure = heure_el.text.strip() if heure_el else ""
+            lieu_el = vente.find('div', class_='entry-location')
+            lieu = lieu_el.text.strip() if lieu_el else ""
+            lien = titre_el.find('a')['href'] if titre_el and titre_el.find('a') else url
+            self.add_auction(date_iso, titre, "Conan Hôtel d’Ainay", heure, lieu, lien)
 
     def organize_by_date(self):
         auctions_by_date = {}
@@ -87,9 +95,8 @@ class LyonAuctionsScraper:
             json.dump(data, f, ensure_ascii=False, indent=2)
 
     def scrape_all(self):
-        self.scrape_ivoiere_berard()      # HTML direct exploitable
-        self.scrape_maison_pdf()          # PDF (exemple, adapte à tes vraies URLs)
-        # ...Ajoute ici une fonction par maison, en HTML ou PDF selon le cas...
+        self.scrape_debaecque()
+        self.scrape_conan()
 
 def main():
     scraper = LyonAuctionsScraper()
