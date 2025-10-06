@@ -1,90 +1,52 @@
 {
-  "last_update": "2025-10-06T08:00:00Z",
+  "last_update": "2025-10-06T11:39:00+02:00",
   "auctions": [
     {
       "date": "2025-10-06",
-      "displayDate": "Lundi 6 octobre 2025",
+      "displayDate": "2025-10-06",
       "auctions": [
         {
           "title": "Une vie, des collections II - Art populaire",
-          "house": "De Baecque et Associés",
+          "house": "De Baecque & Associés",
           "time": "14h00",
-          "location": "Lyon",
-          "url": "https://www.debaecque.fr/ventes-a-venir"
+          "location": "Lyon , 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/catalogue/166899-une-vie-des-collections-ii-art-populaire"
         },
         {
-          "title": "Vente de véhicules (Porsche, BMW, VW, etc.)",
-          "house": "Enchères du Domaine",
-          "time": "Voir site",
-          "location": "Lyon",
-          "url": "https://encheres-domaine.gouv.fr/"
+          "title": "Vente aux enchères caritative - La passerelle",
+          "house": "De Baecque & Associés",
+          "time": "19h00",
+          "location": "Hôtel Mercure , Lyon Perrache 69002 Lyon",
+          "url": "https://www.debaecque.fr/catalogue/170582-vente-aux-encheres-caritative-la-passerelle"
         }
       ]
     },
     {
       "date": "2025-10-07",
-      "displayDate": "Mardi 7 octobre 2025",
+      "displayDate": "2025-10-07",
       "auctions": [
         {
-          "title": "Bijoux régionaux et orientaux",
-          "house": "De Baecque et Associés",
+          "title": "Une vie, des collections III - Bijoux régionaux et orientaux",
+          "house": "De Baecque & Associés",
           "time": "14h30",
-          "location": "Lyon",
-          "url": "https://www.debaecque.fr/ventes-a-venir"
+          "location": "Lyon , 70, rue Vendôme 69006 Lyon",
+          "url": "https://www.debaecque.fr/catalogue/166904-une-vie-des-collections-iii-bijoux-regionaux-et-orientaux"
         }
       ]
     },
     {
       "date": "2025-10-09",
-      "displayDate": "Jeudi 9 octobre 2025",
+      "displayDate": "2025-10-09",
       "auctions": [
         {
-          "title": "Vente de fonds de commerce - Restauration",
-          "house": "2C Partenaires",
-          "time": "15h00",
-          "location": "15 Place Jules Ferry, 69006 Lyon",
-          "url": "https://www.2c-partenaires.com/ventes-futures"
-        }
-      ]
-    },
-    {
-      "date": "2025-10-11",
-      "displayDate": "Samedi 11 octobre 2025",
-      "auctions": [
-        {
-          "title": "XX - XXI : Art Nouveau - Art Déco - Design",
-          "house": "Conan Hôtel d'Ainay",
-          "time": "14h30",
-          "location": "Lyon",
-          "url": "https://www.conanauction.fr/calendrier"
-        }
-      ]
-    },
-    {
-      "date": "2025-10-14",
-      "displayDate": "Mardi 14 octobre 2025",
-      "auctions": [
-        {
-          "title": "XX - XXI : Art Moderne et Contemporain",
-          "house": "Conan Hôtel d'Ainay",
-          "time": "14h30",
-          "location": "Lyon",
-          "url": "https://www.conanauction.fr/calendrier"
-        }
-      ]
-    },
-    {
-      "date": "2025-10-16",
-      "displayDate": "Jeudi 16 octobre 2025",
-      "auctions": [
-        {
-          "title": "Bijoux, Montres, pièces en or & Mode",
-          "house": "ArtEnchères",
-          "time": "14h30",
-          "location": "2-4 rue Saint-Firmin, Lyon",
-          "url": "https://www.artencheres.fr/ventes-a-venir"
+          "title": "Vente d'atelier Pierre Dedieu (1928-2013) - Partie II",
+          "house": "De Baecque & Associés",
+          "time": "14h00",
+          "location": "Versailles , 3, impasse des Chevau-Légers 78000 Versailles",
+          "url": "https://www.debaecque.fr/catalogue/166933-vente-datelier-pierre-dedieu-1928-2013-partie-ii"
         }
       ]
     }
+    // ... Ajouter la structure pour chaque jour/vente supplémentaire
   ]
 }
