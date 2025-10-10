@@ -323,9 +323,14 @@
         // Fonction principale pour charger les données depuis le JSON
         async function loadAuctions() {
             try {
+                // Déterminer le bon chemin selon l'environnement
+                const baseUrl = window.location.hostname.includes('github.io') 
+                    ? '/encheres-lyon/' 
+                    : '/';
+                
                 // Ajouter un timestamp pour éviter le cache du navigateur
                 const timestamp = new Date().getTime();
-                const response = await fetch(`./data/auctions.json?t=${timestamp}`);
+                const response = await fetch(`${baseUrl}data/auctions.json?t=${timestamp}`);
                 
                 if (!response.ok) {
                     throw new Error('Impossible de charger les données');
@@ -477,7 +482,10 @@
         }
 
         // Charger les ventes au chargement de la page
-        window.addEventListener('DOMContentLoaded', loadAuctions);
+        window.addEventListener('DOMContentLoaded', () => {
+            loadAuctions();
+            setupAutoRefresh(); // Active le rafraîchissement automatique
+        });
     </script>
 </body>
 </html>
