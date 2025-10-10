@@ -222,12 +222,12 @@
         // Fonction pour filtrer les ventes futures (inclut aujourd'hui)
         function filterFutureAuctions(auctions) {
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Réinitialiser à minuit pour comparer uniquement les dates
+            today.setHours(0, 0, 0, 0);
             
             return auctions.filter(auction => {
                 const auctionDate = new Date(auction.date);
                 auctionDate.setHours(0, 0, 0, 0);
-                return auctionDate >= today; // >= inclut aujourd'hui
+                return auctionDate >= today;
             });
         }
 
@@ -323,17 +323,34 @@
         // Fonction principale pour charger les données depuis le JSON
         async function loadAuctions() {
             try {
-                // Déterminer le bon chemin selon l'environnement
-                const baseUrl = window.location.hostname.includes('github.io') 
-                    ? '/encheres-lyon/' 
-                    : '/';
-                
-                // Ajouter un timestamp pour éviter le cache du navigateur
                 const timestamp = new Date().getTime();
-                const response = await fetch(`${baseUrl}data/auctions.json?t=${timestamp}`);
                 
-                if (!response.ok) {
-                    throw new Error('Impossible de charger les données');
+                // Essayer différents chemins
+                const paths = [
+                    `./data/auctions.json?t=${timestamp}`,
+                    `data/auctions.json?t=${timestamp}`,
+                    `/encheres-lyon/data/auctions.json?t=${timestamp}`
+                ];
+                
+                let response = null;
+                let successPath = null;
+                
+                for (const path of paths) {
+                    try {
+                        const testResponse = await fetch(path);
+                        if (testResponse.ok) {
+                            response = testResponse;
+                            successPath = path;
+                            console.log(`✅ JSON chargé depuis: ${path}`);
+                            break;
+                        }
+                    } catch (e) {
+                        console.log(`❌ Échec avec: ${path}`, e);
+                    }
+                }
+                
+                if (!response || !response.ok) {
+                    throw new Error('Impossible de charger les données depuis aucun chemin');
                 }
                 
                 const data = await response.json();
@@ -359,132 +376,22 @@
                 content.innerHTML = `
                     <div class="error">
                         ⚠️ Erreur lors du chargement des ventes aux enchères.<br>
-                        Assurez-vous que le fichier <strong>./data/auctions.json</strong> existe.<br>
+                        Assurez-vous que le fichier <strong>data/auctions.json</strong> existe.<br>
                         <small>Erreur: ${error.message}</small>
                     </div>
                 `;
             }
         }
 
-        // Auto-rafraîchissement toutes les heures (optionnel)
+        // Auto-rafraîchissement toutes les heures
         function setupAutoRefresh() {
-            // Recharger les données toutes les heures
             setInterval(loadAuctions, 60 * 60 * 1000);
-        }
-                
-                // Données de secours en cas d'erreur de chargement
-                const data = {
-                    "last_update": "2025-10-06T08:00:00Z",
-                    "auctions": [
-                        {
-                            "date": "2025-10-06",
-                            "displayDate": "Lundi 6 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "Une vie, des collections II - Art populaire",
-                                    "house": "De Baecque et Associés",
-                                    "time": "14h00",
-                                    "location": "Lyon",
-                                    "url": "https://www.debaecque.fr/ventes-a-venir"
-                                },
-                                {
-                                    "title": "Vente de véhicules (Porsche, BMW, VW, etc.)",
-                                    "house": "Enchères du Domaine",
-                                    "time": "Voir site",
-                                    "location": "Lyon",
-                                    "url": "https://encheres-domaine.gouv.fr/"
-                                }
-                            ]
-                        },
-                        {
-                            "date": "2025-10-07",
-                            "displayDate": "Mardi 7 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "Bijoux régionaux et orientaux",
-                                    "house": "De Baecque et Associés",
-                                    "time": "14h30",
-                                    "location": "Lyon",
-                                    "url": "https://www.debaecque.fr/ventes-a-venir"
-                                }
-                            ]
-                        },
-                        {
-                            "date": "2025-10-09",
-                            "displayDate": "Jeudi 9 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "Vente de fonds de commerce - Restauration",
-                                    "house": "2C Partenaires",
-                                    "time": "15h00",
-                                    "location": "15 Place Jules Ferry, 69006 Lyon",
-                                    "url": "https://www.2c-partenaires.com/ventes-futures"
-                                }
-                            ]
-                        },
-                        {
-                            "date": "2025-10-11",
-                            "displayDate": "Samedi 11 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "XX - XXI : Art Nouveau - Art Déco - Design",
-                                    "house": "Conan Hôtel d'Ainay",
-                                    "time": "14h30",
-                                    "location": "Lyon",
-                                    "url": "https://www.conanauction.fr/calendrier"
-                                }
-                            ]
-                        },
-                        {
-                            "date": "2025-10-14",
-                            "displayDate": "Mardi 14 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "XX - XXI : Art Moderne et Contemporain",
-                                    "house": "Conan Hôtel d'Ainay",
-                                    "time": "14h30",
-                                    "location": "Lyon",
-                                    "url": "https://www.conanauction.fr/calendrier"
-                                }
-                            ]
-                        },
-                        {
-                            "date": "2025-10-16",
-                            "displayDate": "Jeudi 16 octobre 2025",
-                            "auctions": [
-                                {
-                                    "title": "Bijoux, Montres, pièces en or & Mode",
-                                    "house": "ArtEnchères",
-                                    "time": "14h30",
-                                    "location": "2-4 rue Saint-Firmin, Lyon",
-                                    "url": "https://www.artencheres.fr/ventes-a-venir"
-                                }
-                            ]
-                        }
-                    ]
-                };
-                
-                // Filtrer les ventes futures
-                const futureAuctions = filterFutureAuctions(data.auctions);
-                
-                // Afficher l'info de la période
-                displayWeekInfo();
-                
-                // Afficher les ventes
-                displayAuctions(futureAuctions);
-                
-                // Mettre à jour la date
-                updateLastUpdateTime(data.last_update);
-                
-                // Activer la recherche
-                setupSearch();
-            }
         }
 
         // Charger les ventes au chargement de la page
         window.addEventListener('DOMContentLoaded', () => {
             loadAuctions();
-            setupAutoRefresh(); // Active le rafraîchissement automatique
+            setupAutoRefresh();
         });
     </script>
 </body>
